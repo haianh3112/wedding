@@ -18,18 +18,24 @@
     <script src="./js/main.js" defer></script>
 </head>
 <body>
-    <audio id="weddingMusic" autoplay loop preload="auto" playsinline>
+    <audio id="weddingMusic" autoplay loop preload="auto" playsinline webkit-playsinline>
         <source src="./assets/music/wedding.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="opening-screen" id="openingScreen">
+    <div class="opening-screen" id="openingScreen" role="button" tabindex="0" aria-label="Mở thiệp cưới">
+        <div class="opening-mail" aria-hidden="true">
+            <div class="mail-card"></div>
+            <div class="mail-envelope">
+                <span class="mail-back"></span>
+                <span class="mail-flap mail-flap-top"></span>
+                <span class="mail-flap mail-flap-left"></span>
+                <span class="mail-flap mail-flap-right"></span>
+                <span class="mail-flap mail-flap-bottom"></span>
+                <span class="mail-seal"></span>
+            </div>
+        </div>
         <div class="opening-panel opening-panel-left" aria-hidden="true"></div>
         <div class="opening-panel opening-panel-right" aria-hidden="true"></div>
-        <button class="opening-card" id="openingCard" type="button" aria-label="Mở thiệp cưới Hải Anh và Thanh Hà">
-            <span>Wedding Invitation</span>
-            <strong>Hải Anh &amp; Thanh Hà</strong>
-            <em>12.09.2026</em>
-        </button>
     </div>
 
     <div class="ambient-hearts" id="ambientHearts" aria-hidden="true"></div>
@@ -38,6 +44,7 @@
         <section class="hero-ref section-white">
             <p class="eyebrow reveal">Love and freedom, you and gentleness</p>
             <p class="eyebrow reveal">The most beautiful thing in the world is that when I like you, you also like me</p>
+            <p class="eyebrow reveal">I love you not for who you are, but for who I am with you.</p>
             <h1 class="hero-title reveal">Hẹn nhau ở đám cưới</h1>
             <time class="hero-date reveal" id="heroDate">12/09/2026</time>
             <div class="sweet-script reveal" aria-hidden="true">Sweet Day</div>
@@ -69,11 +76,11 @@
             </button>
         </section>
 
-        <section class="event-ref section-white">
+        <section class="event-ref section-white" id="event">
             <h2 class="couple-line reveal"><span id="eventGroom">Hải Anh</span> &amp; <span id="eventBride">Thanh Hà</span></h2>
             <div class="event-info reveal">
                 <p id="venueName">Khách sạn Vạn Phúc</p>
-                <p id="venueAddress">52 Miếu Đầm, Mễ Trì, Nam Từ Liêm, Hà Nội</p>
+                <p id="venueAddress">Số 13 Vân La, Hồng Vân, Thường Tín, Hà Nội</p>
                 <p><span id="eventWeekday">Thứ bảy</span> ngày <span id="eventDateText">12 tháng 09 năm 2026</span></p>
                 <p>Ngày <span id="lunarDate">01 tháng 08 âm lịch</span></p>
                 <p class="event-time" id="eventTime">12:00PM</p>
@@ -121,14 +128,14 @@
             </figure>
         </section>
 
-        <section class="fall-section section-white">
+        <section class="fall-section section-white" id="fall">
             <div class="script-watermark big" aria-hidden="true">Time</div>
             <div class="poem-block reveal">
                 <p>Từ nay ta sẽ bên nhau, gom từng khoảnh khắc nhiệm màu bình yên.</p>
                 <p>Dẫu là hai kẻ độc riêng, suốt đời nương tựa thắm tình không phai.</p>
             </div>
-            <button class="gallery-item soft-photo reveal" type="button" data-full="./assets/images/couple-02.jpg">
-                <img src="./assets/images/couple-02.jpg" alt="Thanh Hà và Hải Anh cùng nắm tay">
+            <button class="gallery-item soft-photo reveal" type="button" data-full="./assets/images/couple-08.jpg">
+                <img src="./assets/images/couple-08.jpg" alt="Thanh Hà và Hải Anh cùng nắm tay">
             </button>
             <div class="fall-title reveal">
                 <span>FALL IN</span>
@@ -144,31 +151,13 @@
         <section class="map-section section-white">
             <p class="eyebrow reveal">Ever thine, ever mine, ever ours</p>
             <div class="map-wrap reveal">
-                <iframe id="mapFrame" title="Bản đồ địa điểm cưới" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=52%20Mieu%20Dam%2C%20Me%20Tri%2C%20Nam%20Tu%20Liem%2C%20Ha%20Noi&output=embed"></iframe>
+                <iframe id="mapFrame" title="Bản đồ địa điểm cưới" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=S%E1%BB%91%2013%20V%C3%A2n%20La%2C%20H%E1%BB%93ng%20V%C3%A2n%2C%20Th%C6%B0%E1%BB%9Dng%20T%C3%ADn%2C%20H%C3%A0%20N%E1%BB%99i&output=embed"></iframe>
                 <div class="map-copy">
                     <h2>Địa chỉ</h2>
-                    <p id="mapAddress">52 Miếu Đầm, Mễ Trì, Nam Từ Liêm, Hà Nội</p>
+                    <p id="mapAddress">Số 13 Vân La, Hồng Vân, Thường Tín, Hà Nội</p>
                 </div>
             </div>
             <p class="large-serif reveal">Chào mừng bạn đến dự đám cưới của chúng mình</p>
-        </section>
-
-        <section class="rsvp-section section-white" id="rsvp">
-            <form class="rsvp-card reveal" id="rsvpForm">
-                <h2>Xác nhận tham dự</h2>
-                <label for="rsvpName">Họ và tên</label>
-                <input id="rsvpName" name="name" type="text" placeholder="Nhập tên của bạn" autocomplete="name">
-                <p>Bạn sẽ tham dự chứ?</p>
-                <label class="radio-line">
-                    <input type="radio" name="attending" value="yes" checked>
-                    <span>Có, tôi sẽ tham dự</span>
-                </label>
-                <label class="radio-line">
-                    <input type="radio" name="attending" value="no">
-                    <span>Tôi bận, rất tiếc không thể tham dự</span>
-                </label>
-                <button type="submit">Gửi xác nhận</button>
-            </form>
         </section>
 
         <section class="thanks-section section-white">
@@ -178,9 +167,11 @@
                 <p>Như ánh nắng lúc này đang rải xuống rực rỡ</p>
                 <p>và khiến người ta khao khát.</p>
                 <p>Núi cao biển rộng là thế, em chỉ muốn mãi nắm tay anh</p>
-                <p>cùng nhau đi trong khung trời lãng mạn vô tận.</p>
+                <p>cùng nhau đi trong khung trời lãng mạn vô tận,</p>
+                <p>và câu chuyện của đôi ta</p>
+                <p>sẽ còn tiếp tục mãi mãi...</p>
             </div>
-            <div class="thanks-script reveal">Thank</div>
+            <div class="thanks-script reveal">Thanks</div>
         </section>
     </main>
 

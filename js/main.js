@@ -4,8 +4,8 @@ const WEDDING_CONFIG = {
     weddingDate: "2026-09-12T12:00:00",
     lunarDate: "01 tháng 08 âm lịch",
     venue: "Khách sạn Vạn Phúc",
-    address: "52 Miếu Đầm, Mễ Trì, Nam Từ Liêm, Hà Nội",
-    mapUrl: "https://www.google.com/maps?q=52%20Mieu%20Dam%2C%20Me%20Tri%2C%20Nam%20Tu%20Liem%2C%20Ha%20Noi&output=embed",
+    address: "Số 13 Vân La, Hồng Vân, Thường Tín, Hà Nội",
+    mapUrl: "https://www.google.com/maps?q=S%E1%BB%91%2013%20V%C3%A2n%20La%2C%20H%E1%BB%93ng%20V%C3%A2n%2C%20Th%C6%B0%E1%BB%9Dng%20T%C3%ADn%2C%20H%C3%A0%20N%E1%BB%99i&output=embed",
     music: "./assets/music/wedding.mp3"
 };
 
@@ -132,18 +132,18 @@ function createParticles() {
         return;
     }
 
-    for (let index = 0; index < 72; index += 1) {
+    for (let index = 0; index < 220; index += 1) {
         const particle = document.createElement("span");
-        const side = index % 2 === 0 ? "left" : "right";
+        const duration = 7 + Math.random() * 8;
 
-        particle.className = `particle particle-${side}`;
-        particle.style.setProperty("--edge", `${2 + Math.random() * 44}px`);
-        particle.style.setProperty("--size", `${7 + Math.random() * 12}px`);
-        particle.style.setProperty("--duration", `${7 + Math.random() * 8}s`);
-        particle.style.setProperty("--drift", `${(side === "left" ? 1 : -1) * (4 + Math.random() * 20)}px`);
+        particle.className = "particle";
+        particle.style.setProperty("--x", `${Math.random() * window.innerWidth}px`);
+        particle.style.setProperty("--size", `${6 + Math.random() * 12}px`);
+        particle.style.setProperty("--duration", `${duration}s`);
+        particle.style.setProperty("--drift", `${-24 + Math.random() * 48}px`);
         particle.style.setProperty("--spin", `${-18 + Math.random() * 48}deg`);
-        particle.style.setProperty("--opacity", `${0.34 + Math.random() * 0.32}`);
-        particle.style.animationDelay = `${Math.random() * -12}s`;
+        particle.style.setProperty("--opacity", `${0.32 + Math.random() * 0.34}`);
+        particle.style.animationDelay = `${Math.random() * -duration}s`;
         container.appendChild(particle);
     }
 }
@@ -216,18 +216,35 @@ function setupCountdown() {
 const audio = $("#weddingMusic");
 let isMusicPlaying = false;
 let musicUnlockBound = false;
+const musicVolume = 0.78;
+const musicRetryDelays = [0, 180, 650, 1400, 2800, 4600, 6800];
 
 function setMusicState(playing) {
     isMusicPlaying = playing;
     document.body.classList.toggle("is-music-playing", playing);
 }
 
-async function startMusic() {
+function prepareAudio() {
+    if (!audio) {
+        return;
+    }
+
+    audio.volume = musicVolume;
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.autoplay = true;
+    audio.setAttribute("autoplay", "");
+    audio.setAttribute("playsinline", "");
+    audio.setAttribute("webkit-playsinline", "");
+}
+
+async function startMusic(options = {}) {
     if (!audio) {
         return false;
     }
 
-    audio.volume = 0.78;
+    const { mutedBootstrap = false } = options;
+    prepareAudio();
     audio.muted = false;
 
     try {
@@ -235,9 +252,32 @@ async function startMusic() {
         setMusicState(true);
         return true;
     } catch (error) {
+        if (mutedBootstrap) {
+            try {
+                audio.muted = true;
+                await audio.play();
+                audio.muted = false;
+                audio.volume = musicVolume;
+                setMusicState(!audio.paused && !audio.muted);
+                return !audio.paused && !audio.muted;
+            } catch (mutedError) {
+                audio.muted = false;
+            }
+        }
+
         setMusicState(false);
         return false;
     }
+}
+
+function scheduleMusicAutoplay() {
+    musicRetryDelays.forEach((delay) => {
+        window.setTimeout(() => {
+            if (!isMusicPlaying) {
+                startMusic({ mutedBootstrap: true });
+            }
+        }, delay);
+    });
 }
 
 function bindMusicUnlock() {
@@ -246,17 +286,17 @@ function bindMusicUnlock() {
     }
 
     musicUnlockBound = true;
-    const unlockEvents = ["pointerdown", "touchstart", "keydown", "scroll"];
+    const unlockEvents = ["pointerdown", "pointerup", "touchstart", "touchend", "click", "keydown", "wheel", "scroll", "mousemove"];
     const unlockMusic = async () => {
-        const played = await startMusic();
+        const played = await startMusic({ mutedBootstrap: true });
 
         if (played) {
-            unlockEvents.forEach((eventName) => document.removeEventListener(eventName, unlockMusic));
+            unlockEvents.forEach((eventName) => document.removeEventListener(eventName, unlockMusic, true));
         }
     };
 
     unlockEvents.forEach((eventName) => {
-        document.addEventListener(eventName, unlockMusic, { passive: true });
+        document.addEventListener(eventName, unlockMusic, { capture: true, passive: true });
     });
 }
 
@@ -265,16 +305,21 @@ function setupMusic() {
         return;
     }
 
-    audio.volume = 0.78;
+    prepareAudio();
     audio.addEventListener("playing", () => setMusicState(true));
     audio.addEventListener("pause", () => setMusicState(false));
 
-    startMusic();
+    startMusic({ mutedBootstrap: true });
+    scheduleMusicAutoplay();
     bindMusicUnlock();
+
+    window.addEventListener("load", scheduleMusicAutoplay);
+    window.addEventListener("pageshow", scheduleMusicAutoplay);
 
     document.addEventListener("visibilitychange", () => {
         if (!document.hidden && !isMusicPlaying) {
-            startMusic();
+            startMusic({ mutedBootstrap: true });
+            scheduleMusicAutoplay();
         }
     });
 }
@@ -293,7 +338,7 @@ function setupOpening() {
 
         opening.classList.add("is-open");
         startMusic();
-        window.setTimeout(() => opening.remove(), reducedMotion.matches ? 80 : 1900);
+        window.setTimeout(() => opening.remove(), reducedMotion.matches ? 80 : 5400);
     };
 
     opening.addEventListener("click", openInvitation);
@@ -304,7 +349,7 @@ function setupOpening() {
         }
     });
 
-    window.setTimeout(openInvitation, reducedMotion.matches ? 60 : 850);
+    window.setTimeout(openInvitation, reducedMotion.matches ? 60 : 1200);
 }
 
 let toastTimer = null;
@@ -319,31 +364,6 @@ function showToast(message) {
     toast.classList.add("is-visible");
     window.clearTimeout(toastTimer);
     toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 2400);
-}
-
-function setupRsvpForm() {
-    const form = $("#rsvpForm");
-    const input = $("#rsvpName");
-    if (!form || !input) {
-        return;
-    }
-
-    if (guestName !== defaultGuestName) {
-        input.value = guestName;
-    }
-
-    form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const formData = new FormData(form);
-        const payload = {
-            name: String(formData.get("name") || "").trim(),
-            attending: formData.get("attending") === "yes",
-            submittedAt: new Date().toISOString()
-        };
-
-        window.localStorage.setItem("wedding:rsvp", JSON.stringify(payload));
-        showToast(payload.attending ? "Cảm ơn bạn, hẹn gặp trong ngày vui!" : "Đã lưu phản hồi của bạn.");
-    });
 }
 
 function setupLightbox() {
@@ -429,6 +449,5 @@ document.addEventListener("DOMContentLoaded", () => {
     setupOpening();
     setupReveal();
     setupCountdown();
-    setupRsvpForm();
     setupLightbox();
 });
