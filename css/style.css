@@ -1,12 +1,12 @@
 :root {
     --paper: #ffffff;
-    --ink: #2f2b2c;
-    --muted: #7f777b;
-    --purple: #74567a;
+    --ink: #241f21;
+    --muted: #5d5559;
+    --purple: #6d506f;
     --purple-soft: rgba(116, 86, 122, 0.86);
-    --pink-script: rgba(203, 149, 190, 0.36);
+    --pink-script: rgba(184, 101, 157, 0.42);
     --red: #c95b62;
-    --dock: rgba(238, 174, 188, 0.78);
+    --heart: rgba(220, 59, 92, 0.72);
     --font-body: "Be Vietnam Pro", sans-serif;
     --font-serif: "Cormorant Garamond", "Noto Serif", serif;
     --font-display: "Playfair Display", "Cormorant Garamond", serif;
@@ -77,6 +77,28 @@ button {
     background: var(--paper);
 }
 
+.eyebrow,
+.hero-title,
+.hero-date,
+.large-serif,
+.couple-line,
+.poem,
+.word-row,
+.event-info,
+.poem-block,
+.quote-line,
+.calendar-top,
+.calendar-weekdays,
+.calendar-days,
+.fall-title,
+.date-stack,
+.map-copy,
+.rsvp-card,
+.thanks-script {
+    position: relative;
+    z-index: 14;
+}
+
 .hero-ref {
     min-height: 902px;
     padding-top: 18px;
@@ -86,13 +108,14 @@ button {
 .eyebrow {
     width: min(100% - 36px, 350px);
     margin: 0 auto 4px;
-    color: #3e3338;
+    color: #2d2529;
     font-family: var(--font-serif);
-    font-size: 0.58rem;
+    font-size: 0.62rem;
     font-weight: 700;
     letter-spacing: 0.18em;
     line-height: 1.45;
     text-transform: uppercase;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .hero-title {
@@ -100,13 +123,13 @@ button {
     color: #111;
     font-family: var(--font-body);
     font-size: 1.86rem;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.05;
 }
 
 .hero-date {
     display: block;
-    color: #858085;
+    color: #4f484d;
     font-family: var(--font-serif);
     font-size: 1.62rem;
     font-weight: 400;
@@ -160,51 +183,51 @@ button {
 }
 
 .large-serif {
-    width: 640px;
-    max-width: none;
-    margin: 0 0 24px 96px;
-    color: #463e42;
+    width: min(100% - 44px, 342px);
+    margin: 0 auto 24px;
+    color: #372f33;
     font-family: var(--font-serif);
     font-size: 1.52rem;
+    font-weight: 600;
     line-height: 1.18;
-    text-align: left;
-    white-space: nowrap;
+    text-align: center;
+    text-wrap: balance;
 }
 
 .couple-line {
-    width: 520px;
-    max-width: none;
-    margin: 0 0 22px 260px;
-    color: #1f1b1c;
+    width: min(100% - 44px, 342px);
+    margin: 0 auto 22px;
+    color: #151112;
     font-family: var(--font-serif);
-    font-size: 1.58rem;
+    font-size: 1.72rem;
     font-weight: 700;
     line-height: 1;
-    text-align: left;
+    text-align: center;
     white-space: nowrap;
 }
 
 .poem,
 .poem-block {
-    color: #5f575b;
+    color: #41393d;
     font-family: var(--font-serif);
     font-size: 1.32rem;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.52;
 }
 
 .poem {
-    width: 520px;
-    margin: 0 auto 24px 96px;
-    text-align: left;
+    width: min(100% - 46px, 338px);
+    margin: 0 auto 24px;
+    text-align: center;
+    text-wrap: balance;
 }
 
 .countdown {
     display: grid;
     grid-template-columns: repeat(4, 58px);
-    justify-content: start;
-    gap: 20px;
-    margin: 0 0 26px 96px;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 auto 26px;
 }
 
 .countdown div {
@@ -281,20 +304,21 @@ button {
 }
 
 .event-ref .couple-line {
-    margin-left: 166px;
+    margin-left: auto;
     margin-bottom: 28px;
 }
 
 .event-info {
     display: grid;
-    grid-template-columns: 1fr 1px 1fr;
-    gap: 16px;
+    grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+    gap: 12px;
     align-items: start;
-    width: 560px;
-    margin: 0 0 28px 28px;
-    color: #5d5559;
+    width: min(100% - 38px, 352px);
+    margin: 0 auto 28px;
+    color: var(--muted);
     font-family: var(--font-serif);
-    font-size: 1.18rem;
+    font-size: 1.08rem;
+    font-weight: 600;
     line-height: 1.35;
     text-align: left;
 }
@@ -303,13 +327,18 @@ button {
     grid-column: 2;
     grid-row: 1 / span 5;
     width: 1px;
-    height: 92px;
+    min-height: 112px;
+    height: 100%;
     content: "";
     background: #8e878b;
 }
 
 .event-info p {
     margin: 0;
+}
+
+.event-info p:nth-child(-n+2) {
+    grid-column: 1;
 }
 
 .event-info p:nth-child(n+3) {
@@ -340,9 +369,10 @@ button {
 .poem-block {
     position: relative;
     z-index: 2;
-    width: 560px;
-    margin: 0 0 28px 66px;
-    text-align: left;
+    width: min(100% - 46px, 338px);
+    margin: 0 auto 28px;
+    text-align: center;
+    text-wrap: balance;
 }
 
 .poem-block p {
@@ -351,7 +381,7 @@ button {
 
 .poem-center {
     margin: 28px auto 0;
-    width: 560px;
+    width: min(100% - 46px, 338px);
     text-align: center;
 }
 
@@ -383,13 +413,14 @@ button {
 }
 
 .quote-line {
-    width: 520px;
-    margin: 10px 0 34px 254px;
-    color: #5f575b;
+    width: min(100% - 44px, 342px);
+    margin: 10px auto 34px;
+    color: #40383c;
     font-family: var(--font-serif);
     font-size: 1.18rem;
+    font-weight: 600;
     line-height: 1;
-    white-space: nowrap;
+    text-align: center;
 }
 
 .calendar-photo {
@@ -530,7 +561,7 @@ button {
     position: absolute;
     right: -8px;
     top: 394px;
-    z-index: 3;
+    z-index: 14;
     display: grid;
     gap: 2px;
     color: #fff;
@@ -539,6 +570,7 @@ button {
     font-weight: 700;
     line-height: 0.94;
     text-align: right;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.36);
 }
 
 .date-stack {
@@ -549,6 +581,7 @@ button {
     font-family: var(--font-display);
     line-height: 0.86;
     text-align: center;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
 }
 
 .date-stack strong,
@@ -565,33 +598,36 @@ button {
 
 .map-wrap {
     display: grid;
-    grid-template-columns: 254px 260px;
-    gap: 18px;
+    grid-template-columns: 1fr;
+    gap: 14px;
     align-items: start;
-    width: 560px;
-    margin-left: 28px;
+    width: min(100% - 44px, 342px);
+    margin: 0 auto;
 }
 
 .map-wrap iframe {
-    width: 254px;
-    height: 206px;
+    width: 100%;
+    height: 220px;
     border: 0;
 }
 
 .map-copy h2 {
-    margin: 18px 0 12px;
-    color: #5d5559;
+    margin: 0 0 8px;
+    color: #3b3337;
     font-family: var(--font-serif);
     font-size: 1.64rem;
     font-weight: 600;
+    text-align: center;
 }
 
 .map-copy p {
     margin: 0;
-    color: #5d5559;
+    color: var(--muted);
     font-family: var(--font-serif);
     font-size: 1.1rem;
+    font-weight: 600;
     line-height: 1.36;
+    text-align: center;
 }
 
 .rsvp-section {
@@ -674,38 +710,116 @@ button {
     line-height: 0.78;
 }
 
-.music-toggle,
-.heart-burst-button {
+.opening-screen {
     position: fixed;
-    left: 8px;
-    z-index: 60;
-    width: 36px;
-    height: 36px;
+    inset: 0;
+    z-index: 160;
     display: grid;
     place-items: center;
-    border: 0;
-    border-radius: 50%;
-    color: #ee3d67;
-    background: rgba(255, 255, 255, 0.94);
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    background: transparent;
+    isolation: isolate;
 }
 
-.music-toggle {
-    top: 12px;
+.opening-screen.is-open {
+    pointer-events: none;
 }
 
-.heart-burst-button {
-    top: 58px;
+.opening-screen::before {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    content: "";
+    background:
+        radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.74), transparent 30%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(111, 79, 96, 0.1));
+    pointer-events: none;
+    transition: opacity 520ms ease;
 }
 
-.music-toggle.is-playing .music-icon {
-    animation: musicRotate 4s linear infinite;
+.opening-screen.is-open::before {
+    opacity: 0;
 }
 
-.music-icon,
-.heart-burst-button span {
-    font-size: 1.15rem;
+.opening-panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+    width: 50.5%;
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.5), transparent 34%),
+        linear-gradient(160deg, #fff8fa 0%, #f5dce6 48%, #dca0b8 100%);
+    box-shadow: inset 0 0 38px rgba(121, 72, 92, 0.16);
+    transition: transform 1700ms cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+.opening-panel-left {
+    left: 0;
+    border-right: 1px solid rgba(126, 76, 96, 0.24);
+}
+
+.opening-panel-right {
+    right: 0;
+    border-left: 1px solid rgba(126, 76, 96, 0.24);
+}
+
+.opening-screen.is-open .opening-panel-left {
+    transform: translateX(-104%);
+}
+
+.opening-screen.is-open .opening-panel-right {
+    transform: translateX(104%);
+}
+
+.opening-card {
+    position: relative;
+    z-index: 2;
+    width: min(296px, calc(100vw - 54px));
+    min-height: 176px;
+    display: grid;
+    place-items: center;
+    gap: 12px;
+    border: 1px solid rgba(109, 80, 111, 0.2);
+    border-radius: 4px;
+    padding: 28px 24px;
+    color: #2f282c;
+    background: rgba(255, 255, 255, 0.84);
+    box-shadow: 0 24px 70px rgba(80, 43, 58, 0.18);
+    text-align: center;
+    transition: opacity 540ms ease, transform 540ms ease;
+}
+
+.opening-card span {
+    color: #7e586c;
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
     line-height: 1;
+    text-transform: uppercase;
+}
+
+.opening-card strong {
+    color: #171314;
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.opening-card em {
+    color: #655b60;
+    font-family: var(--font-serif);
+    font-size: 1.24rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.opening-screen.is-open .opening-card {
+    opacity: 0;
+    transform: scale(0.94);
 }
 
 .ambient-hearts {
@@ -716,142 +830,58 @@ button {
     pointer-events: none;
 }
 
-.particle,
-.burst-heart {
+.particle {
     position: fixed;
-    z-index: 80;
-    width: 14px;
-    height: 14px;
+    top: -34px;
+    z-index: 12;
+    width: var(--size, 14px);
+    height: var(--size, 14px);
     pointer-events: none;
     transform: rotate(-45deg);
 }
 
 .particle::before,
-.particle::after,
-.burst-heart::before,
-.burst-heart::after {
+.particle::after {
     position: absolute;
-    width: 14px;
-    height: 14px;
+    width: 100%;
+    height: 100%;
     content: "";
     border-radius: 50%;
     background: currentColor;
 }
 
-.particle,
-.burst-heart {
+.particle {
     background: currentColor;
-    color: rgba(201, 91, 98, 0.5);
+    color: var(--heart);
 }
 
-.particle::before,
-.burst-heart::before {
-    top: -7px;
+.particle::before {
+    top: -50%;
     left: 0;
 }
 
-.particle::after,
-.burst-heart::after {
+.particle::after {
     top: 0;
-    left: 7px;
+    left: 50%;
 }
 
 .particle {
-    left: var(--left, 50%);
-    bottom: -20px;
     opacity: 0;
-    animation: driftUp var(--duration, 12s) linear infinite;
+    animation: heartRain var(--duration, 10s) linear infinite;
 }
 
-.burst-heart {
-    left: var(--start-x);
-    top: var(--start-y);
-    color: rgba(201, 91, 98, 0.86);
-    animation: burstHeart 1800ms ease-out forwards;
+.particle-left {
+    left: calc(max(0px, 50vw - 195px) + var(--edge, 20px));
 }
 
-.wish-popups {
-    position: fixed;
-    left: 16px;
-    bottom: 80px;
-    z-index: 45;
-    width: min(358px, calc(100% - 32px));
-    pointer-events: none;
-}
-
-.wish-popups p {
-    width: fit-content;
-    max-width: 322px;
-    margin: 7px 0 0;
-    border-radius: 7px;
-    padding: 5px 9px;
-    color: #fff;
-    background: rgba(219, 153, 162, 0.82);
-    font-size: 0.68rem;
-    font-weight: 700;
-    line-height: 1.25;
-    animation: bubbleIn 520ms ease both;
-}
-
-.wish-dock {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    z-index: 55;
-    width: min(100vw, 390px);
-    min-height: 58px;
-    padding: 8px 8px 10px;
-    background: var(--dock);
-}
-
-.wish-dock input {
-    width: 150px;
-    height: 42px;
-    border: 0;
-    border-radius: 999px;
-    padding: 0 44px 0 14px;
-    color: #fff;
-    background: rgba(126, 94, 103, 0.56);
-    outline: 0;
-}
-
-.wish-dock input::placeholder {
-    color: rgba(255, 255, 255, 0.88);
-}
-
-.wish-dock button {
-    min-width: 42px;
-    height: 42px;
-    border: 0;
-    border-radius: 999px;
-    color: #fff;
-    background: rgba(126, 94, 103, 0.56);
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-
-.wish-dock button[type="submit"] {
-    position: absolute;
-    left: 126px;
-    width: 36px;
-    min-width: 36px;
-    height: 36px;
-    color: rgba(255, 255, 255, 0.86);
-    background: transparent;
-}
-
-.dock-heart {
-    position: absolute;
-    right: 14px;
-    bottom: 10px;
-    width: 98px;
-    padding: 0 12px;
+.particle-right {
+    right: calc(max(0px, 50vw - 195px) + var(--edge, 20px));
 }
 
 .toast {
     position: fixed;
     left: 50%;
-    bottom: 72px;
+    bottom: 24px;
     z-index: 90;
     min-height: 40px;
     width: min(100% - 32px, 320px);
@@ -945,65 +975,23 @@ button {
     transform: translateY(0);
 }
 
-@keyframes driftUp {
+@keyframes heartRain {
     0% {
         opacity: 0;
-        transform: translate3d(0, 0, 0) rotate(-45deg) scale(0.65);
+        transform: translate3d(0, -8vh, 0) rotate(-45deg) scale(0.58);
     }
-    18% {
-        opacity: 0.72;
+    12% {
+        opacity: var(--opacity, 0.68);
     }
     100% {
         opacity: 0;
-        transform: translate3d(var(--drift, 22px), -102vh, 0) rotate(-20deg) scale(1.12);
-    }
-}
-
-@keyframes burstHeart {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) rotate(-45deg) scale(0.62);
-    }
-    18% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) rotate(-25deg) scale(1.15);
-    }
-}
-
-@keyframes bubbleIn {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes musicRotate {
-    to {
-        transform: rotate(360deg);
+        transform: translate3d(var(--drift, 24px), 112vh, 0) rotate(var(--spin, 22deg)) scale(1.08);
     }
 }
 
 @media (min-width: 700px) {
-    .site-shell,
-    .wish-dock {
+    .site-shell {
         margin: 0 auto;
-    }
-
-    .wish-dock {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .music-toggle,
-    .heart-burst-button {
-        left: calc((100vw - 390px) / 2 + 8px);
     }
 }
 
@@ -1028,6 +1016,10 @@ button {
     }
 
     .ambient-hearts {
+        display: none;
+    }
+
+    .opening-screen {
         display: none;
     }
 

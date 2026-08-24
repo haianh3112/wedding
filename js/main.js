@@ -6,7 +6,7 @@ const WEDDING_CONFIG = {
     venue: "Khách sạn Vạn Phúc",
     address: "52 Miếu Đầm, Mễ Trì, Nam Từ Liêm, Hà Nội",
     mapUrl: "https://www.google.com/maps?q=52%20Mieu%20Dam%2C%20Me%20Tri%2C%20Nam%20Tu%20Liem%2C%20Ha%20Noi&output=embed",
-    music: "./assets/music/Váy Cưới.mp3"
+    music: "./assets/music/wedding.mp3"
 };
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
@@ -89,6 +89,7 @@ function applyConfig() {
     const audioSource = $("#weddingMusic source");
     if (audioSource) {
         audioSource.src = WEDDING_CONFIG.music;
+        $("#weddingMusic")?.load();
     }
 }
 
@@ -131,13 +132,18 @@ function createParticles() {
         return;
     }
 
-    for (let index = 0; index < 12; index += 1) {
+    for (let index = 0; index < 72; index += 1) {
         const particle = document.createElement("span");
-        particle.className = "particle";
-        particle.style.setProperty("--left", `${8 + Math.random() * 84}%`);
-        particle.style.setProperty("--duration", `${12 + Math.random() * 10}s`);
-        particle.style.setProperty("--drift", `${Math.random() > 0.5 ? "" : "-"}${18 + Math.random() * 50}px`);
-        particle.style.animationDelay = `${Math.random() * 10}s`;
+        const side = index % 2 === 0 ? "left" : "right";
+
+        particle.className = `particle particle-${side}`;
+        particle.style.setProperty("--edge", `${2 + Math.random() * 44}px`);
+        particle.style.setProperty("--size", `${7 + Math.random() * 12}px`);
+        particle.style.setProperty("--duration", `${7 + Math.random() * 8}s`);
+        particle.style.setProperty("--drift", `${(side === "left" ? 1 : -1) * (4 + Math.random() * 20)}px`);
+        particle.style.setProperty("--spin", `${-18 + Math.random() * 48}deg`);
+        particle.style.setProperty("--opacity", `${0.34 + Math.random() * 0.32}`);
+        particle.style.animationDelay = `${Math.random() * -12}s`;
         container.appendChild(particle);
     }
 }
@@ -208,166 +214,97 @@ function setupCountdown() {
 }
 
 const audio = $("#weddingMusic");
-const musicToggle = $("#musicToggle");
-const musicIcon = $("#musicIcon");
 let isMusicPlaying = false;
-let synthContext = null;
-let synthTimer = null;
+let musicUnlockBound = false;
 
 function setMusicState(playing) {
     isMusicPlaying = playing;
-    if (musicToggle) {
-        musicToggle.classList.toggle("is-playing", playing);
-        musicToggle.setAttribute("aria-pressed", String(playing));
-    }
-    if (musicIcon) {
-        musicIcon.textContent = playing ? "♫" : "♪";
-    }
-}
-
-function playSoftTone(frequency, startDelay, duration) {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) {
-        return;
-    }
-    if (!synthContext) {
-        synthContext = new AudioContextClass();
-    }
-
-    const oscillator = synthContext.createOscillator();
-    const gain = synthContext.createGain();
-    const startTime = synthContext.currentTime + startDelay;
-    const endTime = startTime + duration;
-
-    oscillator.type = "sine";
-    oscillator.frequency.setValueAtTime(frequency, startTime);
-    gain.gain.setValueAtTime(0.0001, startTime);
-    gain.gain.exponentialRampToValueAtTime(0.026, startTime + 0.08);
-    gain.gain.exponentialRampToValueAtTime(0.0001, endTime);
-
-    oscillator.connect(gain);
-    gain.connect(synthContext.destination);
-    oscillator.start(startTime);
-    oscillator.stop(endTime + 0.05);
-}
-
-function playSynthPhrase() {
-    [523.25, 659.25, 783.99, 1046.5].forEach((note, index) => playSoftTone(note, index * 0.18, 1.1));
-}
-
-function startSynthFallback() {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) {
-        setMusicState(false);
-        return;
-    }
-    if (!synthContext) {
-        synthContext = new AudioContextClass();
-    }
-    if (synthContext.state === "suspended") {
-        synthContext.resume();
-    }
-    if (!synthTimer) {
-        playSynthPhrase();
-        synthTimer = window.setInterval(playSynthPhrase, 4200);
-    }
-}
-
-function stopSynthFallback() {
-    if (synthTimer) {
-        window.clearInterval(synthTimer);
-        synthTimer = null;
-    }
-}
-
-function isPlaceholderAudio() {
-    return audio && Number.isFinite(audio.duration) && audio.duration > 0 && audio.duration < 0.5;
+    document.body.classList.toggle("is-music-playing", playing);
 }
 
 async function startMusic() {
-    setMusicState(true);
+    if (!audio) {
+        return false;
+    }
+
+    audio.volume = 0.78;
+    audio.muted = false;
 
     try {
-        if (audio) {
-            await audio.play();
-            window.setTimeout(() => {
-                if (isMusicPlaying && isPlaceholderAudio()) {
-                    audio.pause();
-                    startSynthFallback();
-                }
-            }, 300);
-        } else {
-            startSynthFallback();
-        }
+        await audio.play();
+        setMusicState(true);
+        return true;
     } catch (error) {
-        startSynthFallback();
+        setMusicState(false);
+        return false;
     }
 }
 
-function pauseMusic() {
-    if (audio) {
-        audio.pause();
-    }
-    stopSynthFallback();
-    setMusicState(false);
-}
-
-function setupMusic() {
-    if (!musicToggle) {
+function bindMusicUnlock() {
+    if (musicUnlockBound) {
         return;
     }
 
-    if (audio) {
-        audio.addEventListener("loadedmetadata", () => {
-            if (isMusicPlaying && isPlaceholderAudio()) {
-                audio.pause();
-                startSynthFallback();
-            }
-        });
+    musicUnlockBound = true;
+    const unlockEvents = ["pointerdown", "touchstart", "keydown", "scroll"];
+    const unlockMusic = async () => {
+        const played = await startMusic();
+
+        if (played) {
+            unlockEvents.forEach((eventName) => document.removeEventListener(eventName, unlockMusic));
+        }
+    };
+
+    unlockEvents.forEach((eventName) => {
+        document.addEventListener(eventName, unlockMusic, { passive: true });
+    });
+}
+
+function setupMusic() {
+    if (!audio) {
+        return;
     }
 
-    musicToggle.addEventListener("click", () => {
-        if (isMusicPlaying) {
-            pauseMusic();
-        } else {
+    audio.volume = 0.78;
+    audio.addEventListener("playing", () => setMusicState(true));
+    audio.addEventListener("pause", () => setMusicState(false));
+
+    startMusic();
+    bindMusicUnlock();
+
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && !isMusicPlaying) {
             startMusic();
         }
     });
 }
 
-function createBurstHeart(x, y, index) {
-    const heart = document.createElement("span");
-    const angle = (Math.PI * 2 * index) / 9;
-    const distance = 48 + Math.random() * 62;
+function setupOpening() {
+    const opening = $("#openingScreen");
 
-    heart.className = "burst-heart";
-    heart.style.setProperty("--start-x", `${x}px`);
-    heart.style.setProperty("--start-y", `${y}px`);
-    heart.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
-    heart.style.setProperty("--y", `${Math.sin(angle) * distance - 46}px`);
-    document.body.appendChild(heart);
-
-    window.setTimeout(() => heart.remove(), 1800);
-}
-
-function fireHeartBurst(x, y) {
-    if (reducedMotion.matches) {
+    if (!opening) {
         return;
     }
-    for (let index = 0; index < 9; index += 1) {
-        createBurstHeart(x, y, index);
-    }
-}
 
-function setupHeartBurst() {
-    const buttons = [$("#heartBurstButton"), $("#dockHeartButton")].filter(Boolean);
+    const openInvitation = () => {
+        if (opening.classList.contains("is-open")) {
+            return;
+        }
 
-    buttons.forEach((button) => {
-        button.addEventListener("click", () => {
-            const rect = button.getBoundingClientRect();
-            fireHeartBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
-        });
+        opening.classList.add("is-open");
+        startMusic();
+        window.setTimeout(() => opening.remove(), reducedMotion.matches ? 80 : 1900);
+    };
+
+    opening.addEventListener("click", openInvitation);
+    opening.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openInvitation();
+        }
     });
+
+    window.setTimeout(openInvitation, reducedMotion.matches ? 60 : 850);
 }
 
 let toastTimer = null;
@@ -406,43 +343,6 @@ function setupRsvpForm() {
 
         window.localStorage.setItem("wedding:rsvp", JSON.stringify(payload));
         showToast(payload.attending ? "Cảm ơn bạn, hẹn gặp trong ngày vui!" : "Đã lưu phản hồi của bạn.");
-    });
-}
-
-function setupWishForm() {
-    const form = $("#wishForm");
-    const input = $("#wishInput");
-    const popups = $("#wishPopups");
-
-    if (!form || !input || !popups) {
-        return;
-    }
-
-    form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const message = input.value.trim();
-        if (!message) {
-            showToast("Bạn hãy nhập lời chúc trước nhé");
-            return;
-        }
-
-        const saved = JSON.parse(window.localStorage.getItem("wedding:wishes") || "[]");
-        saved.push({ name: guestName === defaultGuestName ? "Bạn" : guestName, message, at: new Date().toISOString() });
-        window.localStorage.setItem("wedding:wishes", JSON.stringify(saved.slice(-20)));
-
-        const bubble = document.createElement("p");
-        const strong = document.createElement("strong");
-        strong.textContent = `${guestName === defaultGuestName ? "Bạn" : guestName}:`;
-        bubble.append(strong, ` ${message}`);
-        popups.appendChild(bubble);
-
-        while (popups.children.length > 5) {
-            popups.firstElementChild.remove();
-        }
-
-        input.value = "";
-        showToast("Đã gửi lời chúc");
-        fireHeartBurst(window.innerWidth / 2, window.innerHeight - 86);
     });
 }
 
@@ -525,11 +425,10 @@ document.addEventListener("DOMContentLoaded", () => {
     applyConfig();
     createCalendar();
     createParticles();
+    setupMusic();
+    setupOpening();
     setupReveal();
     setupCountdown();
-    setupMusic();
-    setupHeartBurst();
     setupRsvpForm();
-    setupWishForm();
     setupLightbox();
 });

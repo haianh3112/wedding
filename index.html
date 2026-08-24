@@ -18,16 +18,19 @@
     <script src="./js/main.js" defer></script>
 </head>
 <body>
-    <audio id="weddingMusic" loop preload="auto">
-        <source src="./assets/music/Váy Cưới.mp3" type="audio/mpeg">
+    <audio id="weddingMusic" autoplay loop preload="auto" playsinline>
+        <source src="./assets/music/wedding.mp3" type="audio/mpeg">
     </audio>
 
-    <button class="music-toggle" id="musicToggle" type="button" aria-label="Bật hoặc tắt nhạc nền" aria-pressed="false">
-        <span class="music-icon" id="musicIcon">♪</span>
-    </button>
-    <button class="heart-burst-button" id="heartBurstButton" type="button" aria-label="Bắn tim">
-        <span>♡</span>
-    </button>
+    <div class="opening-screen" id="openingScreen">
+        <div class="opening-panel opening-panel-left" aria-hidden="true"></div>
+        <div class="opening-panel opening-panel-right" aria-hidden="true"></div>
+        <button class="opening-card" id="openingCard" type="button" aria-label="Mở thiệp cưới Hải Anh và Thanh Hà">
+            <span>Wedding Invitation</span>
+            <strong>Hải Anh &amp; Thanh Hà</strong>
+            <em>12.09.2026</em>
+        </button>
+    </div>
 
     <div class="ambient-hearts" id="ambientHearts" aria-hidden="true"></div>
 
@@ -180,21 +183,6 @@
             <div class="thanks-script reveal">Thank</div>
         </section>
     </main>
-
-    <form class="wish-dock" id="wishForm">
-        <label class="sr-only" for="wishInput">Gửi lời chúc</label>
-        <input id="wishInput" type="text" maxlength="90" placeholder="Gửi lời chúc..." autocomplete="off">
-        <button type="submit" aria-label="Gửi lời chúc">▣</button>
-        <button class="dock-heart" type="button" id="dockHeartButton"><span aria-hidden="true">♡</span> Bắn tim</button>
-    </form>
-
-    <div class="wish-popups" id="wishPopups" aria-hidden="true">
-        <p><strong>Trang:</strong> Mong tình yêu của hai bạn mãi vĩnh cửu!</p>
-        <p><strong>Minh:</strong> Chúc hai bạn trăm năm hạnh phúc!</p>
-        <p><strong>Erik:</strong> Chúc hai bạn mãi ngọt ngào như hôm nay!</p>
-        <p><strong>Lan Anh:</strong> Mãi mãi vui vẻ và nâng đỡ nhau!</p>
-        <p><strong>Hải:</strong> Chúc hai bạn có một ngày thật đáng nhớ!</p>
-    </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 

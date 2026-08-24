@@ -1,11 +1,11 @@
 # Hải Anh & Thanh Hà | Wedding Invitation
 
-Website thiệp cưới online tĩnh, mobile-first, dùng HTML5, CSS3 và JavaScript thuần. Giao diện được chỉnh theo hướng bám sát template CineLove 60 bằng CSS/JS tự viết, không sao chép code hoặc asset độc quyền.
+Website thiệp cưới online tĩnh, mobile-first, dùng HTML5, CSS3 và JavaScript thuần. Giao diện được chỉnh theo hướng bám sát template CineLove 15 bằng CSS/JS tự viết, không sao chép code hoặc asset độc quyền.
 
 ## Cấu trúc file
 
 ```text
-wedding-invitation/
+.
 ├── .gitignore
 ├── index.html
 ├── css/
@@ -15,14 +15,10 @@ wedding-invitation/
 ├── assets/
 │   ├── images/
 │   │   ├── cover.jpg
-│   │   ├── couple-1.jpg
-│   │   ├── couple-2.jpg
-│   │   ├── couple-3.jpg
-│   │   ├── couple-4.jpg
-│   │   ├── bride.jpg
-│   │   └── groom.jpg
+│   │   ├── hero-ref15.png
+│   │   ├── studio-full-ref15.png
+│   │   └── ...
 │   └── music/
-│       ├── Váy Cưới.mp3
 │       └── wedding.mp3
 └── README.md
 ```
@@ -32,8 +28,8 @@ wedding-invitation/
 Trang hiện gồm:
 
 ```text
-Màn mở thiệp hồng
-Phong bì / hero
+Màn mở thiệp sang hai bên
+Hero theo template 15
 Lịch cưới
 Lời mời
 Album ảnh cưới
@@ -41,7 +37,7 @@ Monogram / câu quote
 Nhà gái / nhà trai
 Hai sự kiện cưới
 Lời cảm ơn
-Nút bắn tim
+Tim rơi hai bên thiệp
 ```
 
 Các mục phụ không dùng trong bản hiện tại đã được lược bỏ khỏi giao diện.
@@ -72,14 +68,14 @@ https://username.github.io/wedding/?guest=Nguyen%20Van%20A
 Website đang dùng:
 
 ```text
-./assets/music/Váy Cưới.mp3
+./assets/music/wedding.mp3
 ```
 
 Để đổi nhạc, thay file này hoặc sửa đường dẫn trong `index.html`.
 
 ## GitHub Pages
 
-Chạy trong thư mục `wedding-invitation/`:
+Chạy tại thư mục root của repo:
 
 ```bash
 git init
