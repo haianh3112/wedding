@@ -583,10 +583,11 @@ button {
 .offset-photo {
     position: relative;
     z-index: 2;
-    width: 302px;
-    height: 214px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 302 / 214;
     display: block;
-    margin: 28px 0 8px 136px;
+    margin: 28px 0 8px;
     overflow: hidden;
 }
 
@@ -1428,6 +1429,45 @@ button {
         width: 900px;
         margin: -34px 0 0 20px;
         font-size: 12.6rem;
+    }
+}
+
+@media (max-width: 699px) {
+    .poem-photo > .script-watermark {
+        top: 76px;
+        right: 8px;
+        left: auto;
+        width: max-content;
+        max-width: calc(100% - 16px);
+        padding: 0.16em 0.12em 0.24em;
+        color: rgba(216, 95, 138, 0.68);
+        font-size: clamp(5.8rem, 29vw, 7rem);
+        line-height: 1;
+        text-rendering: geometricPrecision;
+        transform: rotate(-7deg);
+        transform-origin: center;
+        -webkit-text-stroke: 0.15px currentColor;
+    }
+
+    .thanks-script {
+        width: 100%;
+        margin: -12px auto 0;
+        padding: 0.14em 12px 0.24em;
+        color: rgba(216, 95, 138, 0.68);
+        font-size: clamp(6rem, 31vw, 7.6rem);
+        line-height: 1;
+        text-align: center;
+        text-rendering: geometricPrecision;
+        transform-origin: center;
+        -webkit-text-stroke: 0.15px currentColor;
+    }
+
+    .thanks-script.reveal {
+        transform: translateY(34px) rotate(-4deg);
+    }
+
+    .thanks-script.reveal.is-visible {
+        transform: translateY(0) rotate(-4deg);
     }
 }
 
