@@ -141,7 +141,9 @@ function createParticles() {
         return;
     }
 
-    for (let index = 0; index < 220; index += 1) {
+    const particleCount = window.matchMedia("(max-width: 699px)").matches ? 64 : 120;
+
+    for (let index = 0; index < particleCount; index += 1) {
         const particle = document.createElement("span");
         const duration = 7 + Math.random() * 8;
 
@@ -225,8 +227,8 @@ function setupCountdown() {
 const audio = $("#weddingMusic");
 let isMusicPlaying = false;
 let musicUnlockBound = false;
+let musicRequested = false;
 const musicVolume = 0.78;
-const musicRetryDelays = [0, 180, 650, 1400, 2800, 4600, 6800];
 
 function setMusicState(playing) {
     isMusicPlaying = playing;
@@ -240,9 +242,9 @@ function prepareAudio() {
 
     audio.volume = musicVolume;
     audio.loop = true;
-    audio.preload = "auto";
-    audio.autoplay = true;
-    audio.setAttribute("autoplay", "");
+    audio.preload = "none";
+    audio.autoplay = false;
+    audio.removeAttribute("autoplay");
     audio.setAttribute("playsinline", "");
     audio.setAttribute("webkit-playsinline", "");
 }
@@ -253,6 +255,7 @@ async function startMusic(options = {}) {
     }
 
     const { mutedBootstrap = false } = options;
+    musicRequested = true;
     prepareAudio();
     audio.muted = false;
 
@@ -277,16 +280,6 @@ async function startMusic(options = {}) {
         setMusicState(false);
         return false;
     }
-}
-
-function scheduleMusicAutoplay() {
-    musicRetryDelays.forEach((delay) => {
-        window.setTimeout(() => {
-            if (!isMusicPlaying) {
-                startMusic({ mutedBootstrap: true });
-            }
-        }, delay);
-    });
 }
 
 function bindMusicUnlock() {
@@ -400,17 +393,11 @@ function setupMusic() {
     audio.addEventListener("playing", () => setMusicState(true));
     audio.addEventListener("pause", () => setMusicState(false));
 
-    startMusic({ mutedBootstrap: true });
-    scheduleMusicAutoplay();
     bindMusicUnlock();
 
-    window.addEventListener("load", scheduleMusicAutoplay);
-    window.addEventListener("pageshow", scheduleMusicAutoplay);
-
     document.addEventListener("visibilitychange", () => {
-        if (!document.hidden && !isMusicPlaying) {
-            startMusic({ mutedBootstrap: true });
-            scheduleMusicAutoplay();
+        if (!document.hidden && musicRequested && !isMusicPlaying) {
+            startMusic();
         }
     });
 }
@@ -428,11 +415,10 @@ function setupOpening() {
         }
 
         opening.classList.add("is-open");
-        startMusic();
         window.setTimeout(() => {
             opening.remove();
             document.dispatchEvent(new CustomEvent("invitation:opened"));
-        }, reducedMotion.matches ? 80 : 5400);
+        }, reducedMotion.matches ? 80 : 3400);
     };
 
     opening.addEventListener("click", openInvitation);
@@ -443,7 +429,7 @@ function setupOpening() {
         }
     });
 
-    window.setTimeout(openInvitation, reducedMotion.matches ? 60 : 1200);
+    window.setTimeout(openInvitation, reducedMotion.matches ? 60 : 600);
 }
 
 let toastTimer = null;

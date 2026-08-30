@@ -583,11 +583,11 @@ button {
 .offset-photo {
     position: relative;
     z-index: 2;
-    width: 100%;
+    width: 80%;
     height: auto;
     aspect-ratio: 302 / 214;
     display: block;
-    margin: 28px 0 8px;
+    margin: 28px auto 8px;
     overflow: hidden;
 }
 
@@ -868,7 +868,7 @@ button {
     z-index: 14;
     display: grid;
     gap: 2px;
-    color: var(--pink-script);
+    color: #fff;
     font-family: var(--font-display);
     font-size: 1.55rem;
     font-weight: 700;
@@ -993,7 +993,7 @@ button {
     filter: blur(14px);
     transform: scale(1.08);
     pointer-events: none;
-    transition: opacity 1500ms ease 3100ms;
+    transition: opacity 850ms ease 2050ms;
 }
 
 .opening-screen::after {
@@ -1005,7 +1005,7 @@ button {
         radial-gradient(circle at 24% 30%, rgba(255, 255, 255, 0.28), transparent 19%),
         radial-gradient(circle at 74% 62%, rgba(255, 255, 255, 0.24), transparent 22%);
     pointer-events: none;
-    transition: opacity 1200ms ease 2600ms;
+    transition: opacity 700ms ease 1800ms;
 }
 
 .opening-screen.is-open::before,
@@ -1021,8 +1021,8 @@ button {
     transform-style: preserve-3d;
     animation: mailFloat 2200ms ease-in-out infinite alternate;
     transition:
-        opacity 900ms ease 2700ms,
-        transform 1200ms cubic-bezier(0.4, 0, 0.2, 1) 2400ms;
+        opacity 600ms ease 1900ms,
+        transform 850ms cubic-bezier(0.4, 0, 0.2, 1) 1600ms;
 }
 
 .opening-screen.is-open .opening-mail {
@@ -1047,8 +1047,8 @@ button {
     opacity: 0.94;
     transform: translateY(34%) scale(0.92);
     transition:
-        transform 1700ms cubic-bezier(0.2, 0.78, 0.2, 1) 360ms,
-        opacity 700ms ease 2500ms;
+        transform 1100ms cubic-bezier(0.2, 0.78, 0.2, 1) 220ms,
+        opacity 500ms ease 1700ms;
 }
 
 .opening-screen.is-open .mail-card {
@@ -1088,7 +1088,7 @@ button {
     z-index: 6;
     clip-path: polygon(0 0, 100% 0, 50% 68%);
     transform-origin: top center;
-    transition: transform 1450ms cubic-bezier(0.2, 0.82, 0.2, 1) 180ms;
+    transition: transform 950ms cubic-bezier(0.2, 0.82, 0.2, 1) 120ms;
 }
 
 .mail-flap-left {
@@ -1096,7 +1096,7 @@ button {
     clip-path: polygon(0 0, 52% 50%, 0 100%);
     background: linear-gradient(90deg, #f9bacd, #f39db8);
     transform-origin: left center;
-    transition: transform 1550ms cubic-bezier(0.22, 0.72, 0.18, 1) 760ms;
+    transition: transform 1000ms cubic-bezier(0.22, 0.72, 0.18, 1) 480ms;
 }
 
 .mail-flap-right {
@@ -1104,7 +1104,7 @@ button {
     clip-path: polygon(100% 0, 48% 50%, 100% 100%);
     background: linear-gradient(270deg, #f9bacd, #f39db8);
     transform-origin: right center;
-    transition: transform 1550ms cubic-bezier(0.22, 0.72, 0.18, 1) 760ms;
+    transition: transform 1000ms cubic-bezier(0.22, 0.72, 0.18, 1) 480ms;
 }
 
 .mail-flap-bottom {
@@ -1125,7 +1125,7 @@ button {
         #cf5c72;
     box-shadow: 0 7px 14px rgba(116, 42, 67, 0.2);
     transform: translate(-50%, -50%);
-    transition: opacity 520ms ease 180ms, transform 520ms ease 180ms;
+    transition: opacity 400ms ease 120ms, transform 400ms ease 120ms;
 }
 
 .opening-screen.is-open .mail-flap-top {
@@ -1158,8 +1158,8 @@ button {
     transform: translateX(0) rotateY(0deg);
     transform-style: preserve-3d;
     transition:
-        transform 3500ms cubic-bezier(0.74, 0, 0.14, 1) 1150ms,
-        opacity 1200ms ease 3100ms;
+        transform 2300ms cubic-bezier(0.74, 0, 0.14, 1) 650ms,
+        opacity 750ms ease 2100ms;
     will-change: transform;
 }
 
