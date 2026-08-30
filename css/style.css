@@ -12,6 +12,7 @@
     --font-serif: "Cormorant Garamond", "Noto Serif", serif;
     --font-display: "Playfair Display", "Cormorant Garamond", serif;
     --font-script: "Great Vibes", "Segoe Script", cursive;
+    --font-calendar: "Roboto Condensed", "Arial Narrow", sans-serif;
 }
 
 *,
@@ -130,7 +131,7 @@ button {
 }
 
 .hero-title {
-    margin: 34px auto 8px;
+    margin: 34px auto 4px;
     color: #111;
     font-family: var(--font-body);
     font-size: clamp(1.28rem, 5.75vw, 1.52rem);
@@ -140,11 +141,12 @@ button {
 
 .hero-date {
     display: block;
-    top: 16px;
+    top: 0;
     color: #4f484d;
-    font-family: var(--font-serif);
-    font-size: clamp(1.18rem, 5.1vw, 1.38rem);
+    font-family: var(--font-calendar);
+    font-size: clamp(1.45rem, 6.4vw, 1.75rem);
     font-weight: 400;
+    font-variant-numeric: lining-nums tabular-nums;
     line-height: 1;
 }
 
@@ -218,15 +220,28 @@ button {
 }
 
 .couple-line {
-    width: min(100% - 44px, 342px);
-    margin: 0 auto 22px;
-    color: #151112;
-    font-family: var(--font-serif);
-    font-size: 1.72rem;
+    width: 100%;
+    margin: -2px auto 20px;
+    padding: 0.1em 8px 0.16em;
+    color: #b94b68;
+    font-family: var(--font-script);
+    font-size: clamp(1.75rem, 8.5vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.15;
+    text-align: center;
+    -webkit-text-stroke: 0.2px currentColor;
+    white-space: nowrap;
+}
+
+.couple-heart {
+    display: inline-block;
+    margin: 0 0.42em;
+    color: #d94372;
+    font-family: Arial, sans-serif;
+    font-size: 0.52em;
     font-weight: 700;
     line-height: 1;
-    text-align: center;
-    white-space: nowrap;
+    vertical-align: 0.14em;
 }
 
 .poem,
@@ -462,9 +477,10 @@ button {
     display: block;
     margin: 2px 0 6px;
     color: #fff;
-    font-family: var(--font-display);
+    font-family: var(--font-calendar);
     font-size: 1.94rem;
     font-weight: 600;
+    font-variant-numeric: lining-nums tabular-nums;
     line-height: 1.08;
 }
 
@@ -665,9 +681,10 @@ button {
 
 .calendar-comparison-content h2 {
     margin: 0 0 12px;
-    font-family: var(--font-serif);
+    color: #9b3e5b;
+    font-family: var(--font-calendar);
     font-size: clamp(1.08rem, 4.6vw, 1.45rem);
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.1;
     text-align: right;
 }
@@ -685,20 +702,26 @@ button {
     min-height: 34px;
     display: grid;
     place-items: center;
-    font-family: var(--font-serif);
+    font-family: var(--font-calendar);
     font-size: clamp(0.69rem, 3vw, 0.9rem);
     line-height: 1;
 }
 
 .calendar-comparison-weekdays span {
     min-height: 28px;
-    font-weight: 600;
+    color: #9b3e5b;
+    font-weight: 500;
+}
+
+.calendar-comparison-days span {
+    color: #fff;
+    font-weight: 300;
 }
 
 .calendar-comparison-days .is-wedding-day {
     z-index: 1;
     color: #fff;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .calendar-comparison-days .is-wedding-day::before,
@@ -882,7 +905,8 @@ button {
     left: 40px;
     bottom: 86px;
     color: var(--pink-script);
-    font-family: var(--font-display);
+    font-family: var(--font-calendar);
+    font-variant-numeric: lining-nums tabular-nums;
     line-height: 0.86;
     text-align: center;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
@@ -1377,12 +1401,12 @@ button {
     }
 
     .hero-title {
-        margin: 58px auto 18px;
+        margin: 58px auto 8px;
         font-size: clamp(1.9rem, 5.45vw, 2.85rem);
     }
 
     .hero-date {
-        top: 40px;
+        top: 0;
         font-size: clamp(1.45rem, 3.6vw, 2.05rem);
     }
 
@@ -1538,7 +1562,7 @@ button {
     }
 
     .hero-date {
-        top: 14px;
+        top: 0;
     }
 
     .hero-ref .sweet-script.reveal {
