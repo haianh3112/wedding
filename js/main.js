@@ -93,16 +93,11 @@ function applyConfig() {
     }
 }
 
-function createCalendar() {
-    const calendar = $("#calendarDays");
-    if (!calendar) {
-        return;
-    }
-
+function renderCalendarDays(calendar, calendarDate) {
     calendar.textContent = "";
 
-    const year = weddingDate.getFullYear();
-    const month = weddingDate.getMonth();
+    const year = calendarDate.getFullYear();
+    const month = calendarDate.getMonth();
     const firstDay = new Date(year, month, 1);
     const firstDayOffset = (firstDay.getDay() + 6) % 7;
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -114,11 +109,25 @@ function createCalendar() {
     for (let day = 1; day <= daysInMonth; day += 1) {
         const dayElement = document.createElement("span");
         dayElement.textContent = String(day);
-        if (day === weddingDate.getDate()) {
+        if (day === calendarDate.getDate()) {
             dayElement.classList.add("is-wedding-day");
             dayElement.setAttribute("aria-label", `Ngày cưới ${day}`);
         }
         calendar.appendChild(dayElement);
+    }
+}
+
+function createCalendar() {
+    const calendar = $("#calendarDays");
+    if (calendar) {
+        renderCalendarDays(calendar, weddingDate);
+    }
+}
+
+function createComparisonCalendar() {
+    const calendar = $("#comparisonCalendarDays");
+    if (calendar) {
+        renderCalendarDays(calendar, new Date(2026, 8, 12));
     }
 }
 
@@ -286,7 +295,7 @@ function bindMusicUnlock() {
     }
 
     musicUnlockBound = true;
-    const unlockEvents = ["pointerdown", "pointerup", "touchstart", "touchend", "click", "keydown", "wheel", "scroll", "mousemove"];
+    const unlockEvents = ["pointerdown", "touchstart", "click", "keydown"];
     const unlockMusic = async () => {
         const played = await startMusic({ mutedBootstrap: true });
 
@@ -298,6 +307,88 @@ function bindMusicUnlock() {
     unlockEvents.forEach((eventName) => {
         document.addEventListener(eventName, unlockMusic, { capture: true, passive: true });
     });
+}
+
+function setupAutoScroll() {
+    const opening = $("#openingScreen");
+    const pixelsPerSecond = 24;
+    const resumeDelay = 5000;
+    let frameId = null;
+    let previousTimestamp = 0;
+    let pixelRemainder = 0;
+    let pauseUntil = 0;
+    let isRunning = false;
+
+    function step(timestamp) {
+        if (!isRunning) {
+            return;
+        }
+
+        if (!previousTimestamp) {
+            previousTimestamp = timestamp;
+        }
+
+        const elapsed = Math.min(timestamp - previousTimestamp, 100);
+        previousTimestamp = timestamp;
+
+        if (!document.hidden && Date.now() >= pauseUntil) {
+            const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+            const remaining = maxScroll - window.scrollY;
+
+            if (remaining <= 0.5) {
+                isRunning = false;
+                frameId = null;
+                return;
+            }
+
+            pixelRemainder += pixelsPerSecond * elapsed / 1000;
+            const distance = Math.min(Math.floor(pixelRemainder), remaining);
+
+            if (distance >= 1) {
+                window.scrollBy({ top: distance, left: 0, behavior: "auto" });
+                pixelRemainder -= distance;
+            }
+        }
+
+        frameId = window.requestAnimationFrame(step);
+    }
+
+    function start() {
+        if (isRunning || reducedMotion.matches) {
+            return;
+        }
+
+        isRunning = true;
+        previousTimestamp = 0;
+        frameId = window.requestAnimationFrame(step);
+    }
+
+    function pauseForInteraction(event) {
+        if (!event.isTrusted || !isRunning) {
+            return;
+        }
+
+        pauseUntil = Date.now() + resumeDelay;
+        previousTimestamp = 0;
+    }
+
+    ["pointerdown", "touchstart", "wheel", "keydown"].forEach((eventName) => {
+        document.addEventListener(eventName, pauseForInteraction, { capture: true, passive: true });
+    });
+
+    window.addEventListener("pagehide", () => {
+        if (frameId !== null) {
+            window.cancelAnimationFrame(frameId);
+        }
+        isRunning = false;
+        frameId = null;
+    });
+
+    if (opening) {
+        document.addEventListener("invitation:opened", start, { once: true });
+    } else {
+        window.addEventListener("load", start, { once: true });
+    }
 }
 
 function setupMusic() {
@@ -338,7 +429,10 @@ function setupOpening() {
 
         opening.classList.add("is-open");
         startMusic();
-        window.setTimeout(() => opening.remove(), reducedMotion.matches ? 80 : 5400);
+        window.setTimeout(() => {
+            opening.remove();
+            document.dispatchEvent(new CustomEvent("invitation:opened"));
+        }, reducedMotion.matches ? 80 : 5400);
     };
 
     opening.addEventListener("click", openInvitation);
@@ -444,8 +538,10 @@ function setupLightbox() {
 document.addEventListener("DOMContentLoaded", () => {
     applyConfig();
     createCalendar();
+    createComparisonCalendar();
     createParticles();
     setupMusic();
+    setupAutoScroll();
     setupOpening();
     setupReveal();
     setupCountdown();

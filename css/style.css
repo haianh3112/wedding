@@ -5,7 +5,7 @@
     --muted: #5d5559;
     --purple: #6d506f;
     --purple-soft: rgba(116, 86, 122, 0.86);
-    --pink-script: rgba(184, 101, 157, 0.42);
+    --pink-script: rgba(216, 95, 138, 0.52);
     --red: #c95b62;
     --heart: rgba(220, 59, 92, 0.72);
     --font-body: "Be Vietnam Pro", sans-serif;
@@ -153,7 +153,7 @@ button {
     z-index: 6;
     width: 120%;
     margin: 132px 0 -8px 6px;
-    color: rgba(169, 102, 153, 0.46);
+    color: var(--pink-script);
     font-family: var(--font-script);
     font-size: clamp(4.7rem, 23vw, 5.7rem);
     font-weight: 400;
@@ -259,7 +259,7 @@ button {
     place-items: center;
     border-radius: 3px;
     color: #fff;
-    background: var(--purple);
+    background: #edb0c5;
 }
 
 .countdown strong {
@@ -322,55 +322,202 @@ button {
 }
 
 .event-ref {
-    padding: 0 0 24px;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
     text-align: center;
 }
 
-.event-ref .couple-line {
-    margin-left: auto;
-    margin-bottom: 28px;
+.family-row {
+    position: relative;
+    z-index: 14;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(24px, 8vw, 64px);
+    width: 100%;
+    margin: 0;
+    padding: 23px clamp(10px, 3vw, 30px) 19px;
+    color: #6f676a;
+}
+
+.family-side {
+    min-width: 0;
+    padding: 0;
+}
+
+.family-side h2 {
+    margin: 0 0 13px;
+    color: #6a6265;
+    font-family: var(--font-display);
+    font-size: 1.14rem;
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.family-side p {
+    margin: 0 0 5px;
+    color: #625a5d;
+    font-size: 0.7rem;
+    font-weight: 400;
+    line-height: 1.24;
+    text-transform: uppercase;
 }
 
 .event-info {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
-    gap: 12px;
-    align-items: start;
-    width: min(100% - 38px, 352px);
-    margin: 0 auto 28px;
-    color: var(--muted);
-    font-family: var(--font-serif);
-    font-size: 1.08rem;
-    font-weight: 600;
+    position: relative;
+    display: block;
+    width: calc(100% - 10px);
+    max-width: none;
+    margin: 0 5px;
+    padding: 19px 18px 32px;
+    border-radius: 8px;
+    background: #edb0c5;
+    color: #fff;
+    font-family: var(--font-body);
     line-height: 1.35;
-    text-align: left;
+    text-align: center;
 }
 
-.event-info::before {
-    grid-column: 2;
-    grid-row: 1 / span 5;
-    width: 1px;
-    min-height: 112px;
-    height: 100%;
-    content: "";
-    background: #8e878b;
+.event-seal {
+    position: absolute;
+    top: -21px;
+    left: 50%;
+    width: 46px;
+    transform: translateX(-50%);
 }
 
-.event-info p {
+.event-seal img {
+    width: 100%;
+    height: auto;
+}
+
+.event-card-block {
+    position: relative;
+    z-index: 1;
+}
+
+.event-card-block h2 {
+    margin: 0 0 9px;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 1.24rem;
+    font-weight: 700;
+    line-height: 1.18;
+    text-transform: uppercase;
+}
+
+.event-card-block h3 {
+    margin: 0 0 8px;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 1.92rem;
+    font-weight: 700;
+    line-height: 1.05;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.event-label,
+.event-hour,
+.event-lunar,
+.event-address,
+.event-note {
     margin: 0;
 }
 
-.event-info p:nth-child(-n+2) {
-    grid-column: 1;
+.event-label {
+    margin-bottom: 6px;
+    color: #826f76;
+    font-size: 0.66rem;
+    font-weight: 400;
+    line-height: 1.2;
+    text-transform: uppercase;
 }
 
-.event-info p:nth-child(n+3) {
-    grid-column: 3;
+.event-hour {
+    color: rgba(255, 255, 255, 0.97);
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.2;
+    text-transform: uppercase;
 }
 
-.event-time {
-    color: #222;
+.event-date {
+    display: block;
+    margin: 2px 0 6px;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 1.94rem;
+    font-weight: 600;
+    line-height: 1.08;
+}
+
+.event-lunar {
+    margin-bottom: 14px;
+    color: #806c73;
+    font-size: 0.72rem;
+    font-weight: 400;
+}
+
+.event-address {
+    margin-bottom: 13px;
+    color: #826f76;
+    font-size: 0.72rem;
+    font-weight: 400;
+}
+
+.event-map-link {
+    min-width: 126px;
+    min-height: 30px;
+    display: inline-grid;
+    place-items: center;
+    border: 2px solid rgba(255, 255, 255, 0.92);
+    border-radius: 999px;
+    padding: 5px 18px;
+    color: #fff;
+    font-size: 0.72rem;
     font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.event-divider {
+    width: 72%;
+    height: 1px;
+    margin: 29px auto 25px;
+    background: rgba(132, 103, 114, 0.45);
+}
+
+.event-note {
+    position: relative;
+    z-index: 1;
+    width: min(100% - 72px, 248px);
+    margin: 24px auto 0;
+    color: #846e76;
+    font-family: var(--font-serif);
+    font-size: 0.78rem;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.55;
+}
+
+.event-bouquet {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 0;
+    width: clamp(70px, 16vw, 120px);
+    pointer-events: none;
+}
+
+.event-bouquet img {
+    width: 100%;
+    height: auto;
 }
 
 .full-photo {
@@ -446,8 +593,128 @@ button {
     text-align: center;
 }
 
+.calendar-comparison {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 12px 0 18px;
+}
+
+.calendar-comparison-panel {
+    width: 100%;
+    max-width: none;
+    min-height: 268px;
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    gap: clamp(14px, 4vw, 26px);
+    align-items: center;
+    margin: 0;
+    padding: clamp(20px, 5vw, 28px) clamp(14px, 4vw, 22px);
+    border-radius: 8px;
+    background: #edb0c5;
+    color: #9b3e5b;
+}
+
+.calendar-comparison-photo {
+    min-width: 0;
+    margin: 0;
+    padding: 8px 8px 5px;
+    background: #fff;
+}
+
+.calendar-comparison-crop {
+    aspect-ratio: 0.78;
+    overflow: hidden;
+}
+
+.calendar-comparison-crop img {
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 38%;
+    transform: scale(1.22);
+}
+
+.calendar-comparison-photo figcaption {
+    min-height: 34px;
+    display: grid;
+    place-items: center;
+    padding-top: 3px;
+    color: #a14d65;
+    font-family: var(--font-script);
+    font-size: clamp(1.2rem, 5vw, 1.85rem);
+    line-height: 1;
+    transform: rotate(-4deg);
+}
+
+.calendar-comparison-content {
+    min-width: 0;
+}
+
+.calendar-comparison-content h2 {
+    margin: 0 0 12px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.08rem, 4.6vw, 1.45rem);
+    font-weight: 500;
+    line-height: 1.1;
+    text-align: right;
+}
+
+.calendar-comparison-weekdays,
+.calendar-comparison-days {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.calendar-comparison-weekdays span,
+.calendar-comparison-days span {
+    position: relative;
+    min-width: 0;
+    min-height: 34px;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-serif);
+    font-size: clamp(0.69rem, 3vw, 0.9rem);
+    line-height: 1;
+}
+
+.calendar-comparison-weekdays span {
+    min-height: 28px;
+    font-weight: 600;
+}
+
+.calendar-comparison-days .is-wedding-day {
+    z-index: 1;
+    color: #fff;
+    font-weight: 700;
+}
+
+.calendar-comparison-days .is-wedding-day::before,
+.calendar-comparison-days .is-wedding-day::after {
+    position: absolute;
+    z-index: -1;
+    content: "";
+    background: #dc536d;
+}
+
+.calendar-comparison-days .is-wedding-day::before {
+    left: 50%;
+    top: 51%;
+    width: 25px;
+    height: 25px;
+    transform: translate(-50%, -45%) rotate(45deg);
+}
+
+.calendar-comparison-days .is-wedding-day::after {
+    left: 50%;
+    top: 44%;
+    width: 30px;
+    height: 18px;
+    border-radius: 18px 18px 0 0;
+    transform: translate(-50%, -50%);
+}
+
 .calendar-photo {
-    padding-top: 18px;
+    padding-top: 10px;
 }
 
 .calendar-image {
@@ -601,7 +868,7 @@ button {
     position: absolute;
     left: 40px;
     bottom: 86px;
-    color: #1f1b1c;
+    color: var(--pink-script);
     font-family: var(--font-display);
     line-height: 0.86;
     text-align: center;
@@ -656,7 +923,6 @@ button {
 
 .thanks-section {
     min-height: 760px;
-    padding: 34px 0 112px;
     overflow: hidden;
 }
 
@@ -676,7 +942,7 @@ button {
 .thanks-script {
     width: 520px;
     margin: -18px 0 0 -18px;
-    color: rgba(184, 101, 157, 0.26);
+    color: var(--pink-script);
     font-family: var(--font-script);
     font-size: clamp(6.6rem, 35vw, 8.8rem);
     line-height: 0.78;
@@ -1110,7 +1376,7 @@ button {
     .sweet-script {
         width: 112%;
         margin: 253px 0 -30px 28px;
-        color: rgba(169, 102, 153, 0.42);
+        color: var(--pink-script);
         font-size: clamp(9.7rem, 15.8vw, 11.4rem);
         line-height: 0.62;
         text-align: left;
@@ -1138,7 +1404,6 @@ button {
 
     .thanks-section {
         min-height: 900px;
-        padding: 44px 0 160px;
     }
 
     .thanks-section .poem-center {
@@ -1155,6 +1420,61 @@ button {
 }
 
 @media (max-width: 374px) {
+    .calendar-comparison-panel {
+        width: 100%;
+        grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+        gap: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .calendar-comparison-photo {
+        padding: 6px 6px 3px;
+    }
+
+    .calendar-comparison-weekdays span,
+    .calendar-comparison-days span {
+        min-height: 30px;
+        font-size: 0.66rem;
+    }
+
+    .family-row {
+        width: 100%;
+        gap: 18px;
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .family-side h2 {
+        font-size: 1.06rem;
+    }
+
+    .family-side p {
+        font-size: 0.64rem;
+    }
+
+    .event-info {
+        width: calc(100% - 10px);
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .event-card-block h2 {
+        font-size: 1.12rem;
+    }
+
+    .event-card-block h3 {
+        font-size: 1.58rem;
+    }
+
+    .event-date {
+        font-size: 1.78rem;
+    }
+
+    .event-note {
+        width: min(100% - 58px, 238px);
+    }
+
     .hero-title {
         font-size: 1.36rem;
     }
