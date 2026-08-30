@@ -304,18 +304,30 @@ function bindMusicUnlock() {
 
 function setupAutoScroll() {
     const opening = $("#openingScreen");
+    const scrollRoot = document.scrollingElement || document.documentElement;
     const pixelsPerSecond = 24;
     const resumeDelay = 5000;
-    let frameId = null;
+    const tickInterval = 50;
+    let timerId = null;
     let previousTimestamp = 0;
     let pixelRemainder = 0;
     let pauseUntil = 0;
     let isRunning = false;
 
-    function step(timestamp) {
+    function stop() {
+        if (timerId !== null) {
+            window.clearInterval(timerId);
+        }
+        isRunning = false;
+        timerId = null;
+    }
+
+    function step() {
         if (!isRunning) {
             return;
         }
+
+        const timestamp = performance.now();
 
         if (!previousTimestamp) {
             previousTimestamp = timestamp;
@@ -324,13 +336,12 @@ function setupAutoScroll() {
         const elapsed = Math.min(timestamp - previousTimestamp, 100);
         previousTimestamp = timestamp;
 
-        if (!document.hidden && Date.now() >= pauseUntil) {
-            const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-            const remaining = maxScroll - window.scrollY;
+        if (Date.now() >= pauseUntil) {
+            const maxScroll = Math.max(0, scrollRoot.scrollHeight - window.innerHeight);
+            const remaining = maxScroll - scrollRoot.scrollTop;
 
             if (remaining <= 0.5) {
-                isRunning = false;
-                frameId = null;
+                stop();
                 return;
             }
 
@@ -338,12 +349,10 @@ function setupAutoScroll() {
             const distance = Math.min(Math.floor(pixelRemainder), remaining);
 
             if (distance >= 1) {
-                window.scrollBy({ top: distance, left: 0, behavior: "auto" });
+                scrollRoot.scrollTop = Math.min(scrollRoot.scrollTop + distance, maxScroll);
                 pixelRemainder -= distance;
             }
         }
-
-        frameId = window.requestAnimationFrame(step);
     }
 
     function start() {
@@ -352,8 +361,10 @@ function setupAutoScroll() {
         }
 
         isRunning = true;
+        scrollRoot.style.scrollBehavior = "auto";
         previousTimestamp = 0;
-        frameId = window.requestAnimationFrame(step);
+        timerId = window.setInterval(step, tickInterval);
+        step();
     }
 
     function pauseForInteraction(event) {
@@ -370,11 +381,7 @@ function setupAutoScroll() {
     });
 
     window.addEventListener("pagehide", () => {
-        if (frameId !== null) {
-            window.cancelAnimationFrame(frameId);
-        }
-        isRunning = false;
-        frameId = null;
+        stop();
     });
 
     if (opening) {
