@@ -106,7 +106,9 @@ button {
 }
 
 .hero-ref {
-    min-height: 862px;
+    --hero-photo-top: 180px;
+    --hero-happiness-offset: 41px;
+    min-height: calc(var(--hero-photo-top) + 512px);
     padding-top: 16px;
     text-align: center;
 }
@@ -153,6 +155,7 @@ button {
 .sweet-script {
     position: relative;
     z-index: 6;
+    display: none;
     width: 120%;
     margin: 132px 0 -8px 6px;
     color: var(--pink-script);
@@ -174,7 +177,7 @@ button {
 .double-happiness {
     position: absolute;
     right: 18px;
-    top: 276px;
+    top: calc(var(--hero-photo-top) - var(--hero-happiness-offset));
     z-index: 7;
     width: 1.05em;
     color: #c9585d;
@@ -186,9 +189,9 @@ button {
 }
 
 .hero-photo {
-    position: relative;
-    left: auto;
-    top: auto;
+    position: absolute;
+    left: 0;
+    top: var(--hero-photo-top);
     z-index: 2;
     width: 100%;
     height: 500px;
@@ -203,20 +206,24 @@ button {
 }
 
 .intro-ref {
-    padding: 24px 0 28px;
+    padding: 12px 0 28px;
     text-align: center;
 }
 
 .large-serif {
-    width: min(100% - 44px, 342px);
+    width: min(100% - 12px, 650px);
     margin: 0 auto 24px;
     color: #372f33;
     font-family: var(--font-serif);
-    font-size: 1.52rem;
+    font-size: clamp(0.76rem, 4vw, 1.2rem);
     font-weight: 600;
-    line-height: 1.18;
+    line-height: 1.35;
     text-align: center;
-    text-wrap: balance;
+}
+
+.large-serif span {
+    display: block;
+    white-space: nowrap;
 }
 
 .couple-line {
@@ -224,7 +231,7 @@ button {
     margin: -2px auto 20px;
     padding: 0.1em 8px 0.16em;
     color: #b94b68;
-    font-family: var(--font-script);
+    font-family: "Alex Brush", var(--font-script);
     font-size: clamp(1.75rem, 8.5vw, 2.75rem);
     font-weight: 400;
     line-height: 1.15;
@@ -235,13 +242,13 @@ button {
 
 .couple-heart {
     display: inline-block;
-    margin: 0 0.42em;
+    margin: 0 0.32em;
     color: #d94372;
     font-family: Arial, sans-serif;
-    font-size: 0.52em;
+    font-size: 0.9em;
     font-weight: 700;
     line-height: 1;
-    vertical-align: 0.14em;
+    vertical-align: 0.04em;
 }
 
 .poem,
@@ -254,10 +261,15 @@ button {
 }
 
 .poem {
-    width: min(100% - 46px, 338px);
+    width: min(100% - 16px, 374px);
     margin: 0 auto 24px;
+    font-size: clamp(0.88rem, 4.65vw, 1.12rem);
     text-align: center;
-    text-wrap: balance;
+}
+
+.poem span {
+    display: block;
+    white-space: nowrap;
 }
 
 .countdown {
@@ -334,18 +346,20 @@ button {
 
 .portrait-wide {
     width: 100%;
-    aspect-ratio: 0.75;
+    aspect-ratio: 1400 / 2104;
     display: block;
     margin: 0;
     overflow: hidden;
+    background: #fff;
 }
 
 .portrait-wide img {
-    object-position: 50% 32%;
+    object-fit: contain;
+    object-position: center;
 }
 
 .portrait-wide-right img {
-    object-position: 50% 46%;
+    object-position: center;
 }
 
 .event-ref {
@@ -387,10 +401,11 @@ button {
 .family-side p {
     margin: 0 0 5px;
     color: #625a5d;
-    font-size: 0.7rem;
+    font-family: var(--font-display);
+    font-size: 1rem;
     font-weight: 400;
     line-height: 1.24;
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 .event-info {
@@ -429,7 +444,7 @@ button {
 .event-card-block h2 {
     margin: 0 0 9px;
     color: #fff;
-    font-family: var(--font-display);
+    font-family: inherit;
     font-size: 1.24rem;
     font-weight: 700;
     line-height: 1.18;
@@ -439,7 +454,7 @@ button {
 .event-card-block h3 {
     margin: 0 0 8px;
     color: #fff;
-    font-family: var(--font-display);
+    font-family: inherit;
     font-size: 1.92rem;
     font-weight: 700;
     line-height: 1.05;
@@ -458,17 +473,19 @@ button {
 .event-label {
     margin-bottom: 6px;
     color: #826f76;
-    font-size: 0.66rem;
-    font-weight: 400;
+    font-size: 0.88rem;
+    font-weight: 500;
     line-height: 1.2;
     text-transform: uppercase;
 }
 
 .event-hour {
     color: rgba(255, 255, 255, 0.97);
-    font-family: var(--font-serif);
-    font-size: 1.05rem;
+    font-family: inherit;
+    font-size: 1.18rem;
     font-weight: 500;
+    font-feature-settings: "lnum" 1, "tnum" 1;
+    font-variant-numeric: lining-nums tabular-nums;
     line-height: 1.2;
     text-transform: uppercase;
 }
@@ -477,7 +494,7 @@ button {
     display: block;
     margin: 2px 0 6px;
     color: #fff;
-    font-family: var(--font-calendar);
+    font-family: inherit;
     font-size: 1.94rem;
     font-weight: 600;
     font-variant-numeric: lining-nums tabular-nums;
@@ -494,8 +511,9 @@ button {
 .event-address {
     margin-bottom: 13px;
     color: #826f76;
-    font-size: 0.72rem;
+    font-size: 1.18rem;
     font-weight: 400;
+    line-height: 1.3;
 }
 
 .event-map-link {
@@ -524,14 +542,19 @@ button {
 .event-note {
     position: relative;
     z-index: 1;
-    width: min(100% - 72px, 248px);
+    width: min(100% - 20px, 330px);
     margin: 24px auto 0;
     color: #846e76;
-    font-family: var(--font-serif);
-    font-size: 0.78rem;
+    font-family: inherit;
+    font-size: clamp(0.62rem, 3.2vw, 0.78rem);
     font-style: italic;
     font-weight: 500;
     line-height: 1.55;
+}
+
+.event-note span {
+    display: block;
+    white-space: nowrap;
 }
 
 .event-bouquet {
@@ -574,7 +597,18 @@ button {
 }
 
 .poem-block p {
+    position: relative;
+    z-index: 2;
     margin: 0 0 2px;
+}
+
+.poem-block .poem-single-line {
+    position: relative;
+    left: 50%;
+    width: max-content;
+    font-size: inherit;
+    white-space: nowrap;
+    transform: translateX(-50%);
 }
 
 .poem-center {
@@ -586,14 +620,22 @@ button {
 .script-watermark {
     position: absolute;
     top: 98px;
-    left: 222px;
+    left: 50%;
     z-index: 1;
-    width: 640px;
+    width: max-content;
     color: var(--pink-script);
     font-family: var(--font-script);
     font-size: 7.8rem;
     line-height: 0.8;
-    transform: rotate(-9deg);
+    text-align: center;
+    transform: translateX(-50%) rotate(-9deg);
+    transform-origin: center;
+}
+
+.poem-photo .poem-block > .script-watermark {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-9deg);
 }
 
 .offset-photo {
@@ -833,15 +875,29 @@ button {
 }
 
 .fall-section {
-    min-height: 846px;
-    padding: 32px 0 40px;
+    min-height: 0;
+    padding: 32px 0 8px;
     overflow: hidden;
 }
 
+.fall-section .fall-poem {
+    width: min(100% - 16px, 650px);
+    font-size: 1.32rem;
+}
+
+.fall-section .fall-poem p {
+    left: 50%;
+    width: max-content;
+    white-space: nowrap;
+    transform: translateX(-50%);
+    transform-origin: center;
+}
+
 .script-watermark.big {
-    top: -6px;
-    left: -10px;
+    top: 50%;
+    left: 50%;
     font-size: 10.4rem;
+    transform: translate(-50%, -50%) rotate(-9deg);
 }
 
 .soft-photo {
@@ -850,7 +906,7 @@ button {
     width: 100%;
     height: clamp(300px, 66.7vw, 470px);
     display: block;
-    margin-top: 68px;
+    margin-top: 20px;
     overflow: hidden;
 }
 
@@ -883,9 +939,7 @@ button {
 }
 
 .date-stack {
-    position: absolute;
-    left: 40px;
-    bottom: 86px;
+    position: relative;
     color: var(--pink-script);
     font-family: var(--font-calendar);
     font-variant-numeric: lining-nums tabular-nums;
@@ -941,16 +995,31 @@ button {
 }
 
 .thanks-section {
-    min-height: 760px;
+    min-height: 0;
+    padding-bottom: 0;
     overflow: hidden;
+}
+
+.thanks-closing {
+    position: relative;
+    width: min(100% - 24px, 650px);
+    display: block;
+    margin: 0 auto;
+}
+
+.thanks-closing .date-stack {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
 }
 
 .thanks-section .poem-center {
     width: min(100% - 22px, 348px);
     margin-top: 0;
     color: #1f1b1c;
-    font-size: clamp(1.42rem, 7.2vw, 1.78rem);
-    font-weight: 400;
+    font-size: 1.32rem;
+    font-weight: 500;
     line-height: 1.58;
 }
 
@@ -958,13 +1027,23 @@ button {
     margin-bottom: 4px;
 }
 
+.thanks-section .thanks-closing .poem-center {
+    width: 100%;
+    margin: 3.2rem auto 0;
+}
+
+.thanks-section .poem-center .stanza-start {
+    margin-top: 18px;
+}
+
 .thanks-script {
-    width: 520px;
-    margin: -18px 0 0 -18px;
+    width: 100%;
+    margin: 64px auto 0;
     color: var(--pink-script);
     font-family: var(--font-script);
     font-size: clamp(6.6rem, 35vw, 8.8rem);
     line-height: 0.78;
+    text-align: center;
     transform: rotate(-4deg);
     white-space: nowrap;
 }
@@ -1371,7 +1450,9 @@ button {
     }
 
     .hero-ref {
-        min-height: 1250px;
+        --hero-photo-top: 390px;
+        --hero-happiness-offset: 56px;
+        min-height: calc(var(--hero-photo-top) + 702px);
         padding-top: 30px;
     }
 
@@ -1409,7 +1490,7 @@ button {
 
     .double-happiness {
         right: 42px;
-        top: 504px;
+        top: calc(var(--hero-photo-top) - var(--hero-happiness-offset));
         font-size: clamp(10.8rem, 16.5vw, 12.2rem);
         line-height: 0.64;
     }
@@ -1417,32 +1498,40 @@ button {
     .hero-photo {
         position: absolute;
         left: 0;
-        top: 560px;
+        top: var(--hero-photo-top);
         height: 690px;
     }
 
     .thanks-section {
-        min-height: 900px;
+        min-height: 0;
     }
 
     .thanks-section .poem-center {
         width: min(100% - 64px, 650px);
-        font-size: clamp(2.2rem, 4vw, 2.95rem);
+        font-size: 1.32rem;
         line-height: 1.45;
     }
 
     .thanks-script {
-        width: 900px;
-        margin: -34px 0 0 20px;
+        width: 100%;
+        margin: 80px auto 0;
         font-size: 12.6rem;
     }
 }
 
 @media (max-width: 699px) {
-    .poem-photo > .script-watermark {
-        top: 76px;
-        right: 8px;
-        left: auto;
+    .large-serif .invite-long-line {
+        transform: scaleX(0.8);
+    }
+
+    .fall-section .fall-poem p {
+        transform: translateX(-50%) scaleX(0.9);
+    }
+
+    .poem-photo .poem-block > .script-watermark {
+        top: 50%;
+        right: auto;
+        left: 50%;
         width: max-content;
         max-width: calc(100% - 16px);
         padding: 0.16em 0.12em 0.24em;
@@ -1450,15 +1539,15 @@ button {
         font-size: clamp(5.8rem, 29vw, 7rem);
         line-height: 1;
         text-rendering: geometricPrecision;
-        transform: rotate(-7deg);
+        transform: translate(-50%, -50%) rotate(-7deg);
         transform-origin: center;
         -webkit-text-stroke: 0.15px currentColor;
     }
 
     .thanks-script {
         width: 100%;
-        margin: -12px auto 0;
-        padding: 0.14em 12px 0.24em;
+        margin: 56px auto 0;
+        padding: 0.14em 12px 0;
         color: rgba(216, 95, 138, 0.68);
         font-size: clamp(6rem, 31vw, 7.6rem);
         line-height: 1;
@@ -1508,7 +1597,7 @@ button {
     }
 
     .family-side p {
-        font-size: 0.64rem;
+        font-size: 1rem;
     }
 
     .event-info {
@@ -1530,7 +1619,15 @@ button {
     }
 
     .event-note {
-        width: min(100% - 58px, 238px);
+        width: 100%;
+    }
+
+    .poem-block .poem-single-line {
+        transform: translateX(-50%) scaleX(0.92);
+    }
+
+    .fall-section .fall-poem p {
+        transform: translateX(-50%) scaleX(0.8);
     }
 
     .hero-title {
@@ -1553,8 +1650,18 @@ button {
 
     .double-happiness {
         right: 18px;
-        top: 274px;
+        top: calc(var(--hero-photo-top) - var(--hero-happiness-offset));
         font-size: clamp(5.05rem, 25vw, 5.55rem);
+    }
+}
+
+@media (max-width: 340px) {
+    .poem-block .poem-single-line {
+        transform: translateX(-50%) scaleX(0.8);
+    }
+
+    .fall-section .fall-poem p {
+        transform: translateX(-50%) scaleX(0.72);
     }
 }
 

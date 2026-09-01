@@ -79,6 +79,7 @@ function applyConfig() {
     setText("mapAddress", WEDDING_CONFIG.address);
     setText("dateDay", parts.day);
     setText("dateMonth", parts.month);
+    setText("dateYear", parts.year.slice(-2));
     setText("calendarTitle", parts.calendar);
 
     const mapFrame = $("#mapFrame");
